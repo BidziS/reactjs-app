@@ -1,6 +1,8 @@
 $font-stack: Helvetica, sans-serif;
 $primary-color: red;
-
+body{
+  font-size: 16px !important;
+}
 .taktakklasa {
   font: 100% $font-stack;
   color: $primary-color;
@@ -115,6 +117,9 @@ $primary-color: red;
       float: left;
     }
   }
+  &.error {
+    width: 400px;
+  }
 }
 
 .modal-content-back {
@@ -225,8 +230,27 @@ $primary-color: red;
   text-align: center;
 }
 
+.table-container-authors {
+  padding: 0 20px 0 20px;
+}
+
 .table-container-categories {
   padding: 0 200px 0 200px;
+}
+
+.books-table{
+  thead, tbody{
+    tr{
+      display: flex;
+    }
+    th, td{
+      flex:1 1 10px;
+      &:first-child, &:nth-child(2){
+        flex: 2 1 0;
+      }
+
+    }
+  }
 }
 
 .row-manage-item {
@@ -240,17 +264,140 @@ $primary-color: red;
     overflow: auto;
     width: 100%;
     max-height: 200px;
+    tr{
+      display: flex;
+    }
   }
 }
 
-.table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
-  //display: block;
-}
+//.table-fixed tr, .table-fixed td{
+//  display: flex;
+//}
 
 .change-table-number-button {
   margin: 0 10px 0 10px;
 }
+.country-list{
+  thead, tbody{
+    tr{
+      display: flex;
+    }
+    th, td{
+      flex: 1 1 0;
 
+      flex-direction: column;
+      &:first-child{
+        flex: 2 1 0;
+      }
+      &:last-child{
+        flex: 1 1 0;
+      }
+
+    }
+  }
+}
+.authors-list{
+  thead, tbody{
+    tr{
+      display: flex;
+    }
+    th, td{
+      &:first-child{
+        flex: 2 1 0;
+      }
+      &:nth-child(2){
+        flex: 2 1 0;
+      }
+      &:nth-child(3){
+        flex: 1 1 0;
+      }
+      &:last-child{
+        flex: 1 1 0;
+      }
+    }
+  }
+}
+.search-container{
+  text-align: center;
+  margin-bottom: 10px;
+}
+.search-input{
+  width: 200px;
+  height: 30px;
+  border-radius: 10px;
+}
+
+.error-message-title{
+  font-size: 36px;
+  color: red;
+}
+.dropdown {
+  position: relative;
+  display: inline-block;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+}
+.padding-nav{
+  padding-top: 14px !important;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  width: 400px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 0;
+  z-index: 1;
+  margin-top: 14px;
+  border: 1px solid black;
+  color: black;
+  &.hover{
+    display: block;
+  }
+}
+@media all and (max-width: 766px) {
+  .dropdown {
+    position: relative;
+    display: inline-block;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    padding: 15px 0 0 0;
+    width: 100%;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    width: 100%;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+    border: 1px solid black;
+    color: black;
+
+  }
+}
+
+.newest-product-list-image{
+  max-width: 100px;
+}
+.list-item{
+  border: 1px solid rgba(90, 90, 90, 0.05);
+  margin:0;
+  padding: 5px;
+  color: black;
+  background-color: rgba(90, 90, 90, 0.05);
+}
+.img-item-list{
+  height: 100px;
+  margin-left: 10px;
+}
+.list-item-container{
+  padding:0 !important;
+}
 //table thead tr{
 //  display:block;
 //}

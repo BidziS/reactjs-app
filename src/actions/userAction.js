@@ -32,7 +32,7 @@ export function loginUser(userLogin) {
         });
     };
 }
-export function logoutUser(userLogin) {
+export function logoutUser() {
     return function (dispatch) {
         dispatch(beginAjaxCall());
         return userApi.logoutUser().then(currentUser => {

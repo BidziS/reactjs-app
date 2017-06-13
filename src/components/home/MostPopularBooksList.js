@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import MostPopularBookListRow from './MostPopularBooksListRow';
 
-const MostPopularBookList = ({books, order}) => {
+const MostPopularBookList = ({books, authors, categories}) => {
     return (
 
             <div id="homepage">
@@ -11,7 +11,9 @@ const MostPopularBookList = ({books, order}) => {
                 </div>
                 <div className="flex-container">
                     {books.map(book =>
-                        <MostPopularBookListRow key={book.id} book={book} order={order}/>
+                        <MostPopularBookListRow key={book.id} book={book}
+                                                author={authors.filter(a => a.id === book.authorId)[0]}
+                                                category={categories.filter(c => c.id === book.categoryId)[0]}/>
                     )}
                 </div>
             </div>
@@ -20,7 +22,8 @@ const MostPopularBookList = ({books, order}) => {
 
 MostPopularBookList.propTypes = {
     books: PropTypes.array.isRequired,
-    order: PropTypes.func.isRequired
+    authors: PropTypes.array.isRequired,
+    categories: PropTypes.array.isRequired
 };
 
 export default MostPopularBookList;

@@ -1,5 +1,7 @@
 import delay from './delay';
 
+const persistedState = localStorage.getItem('state') ? JSON.parse(localStorage.getItem('state')) : {};
+
 const categories = [
     {
         id: 1,
@@ -74,7 +76,8 @@ const categories = [
 ];
 
 const generateId = () => {
-    return categories.length ? categories[categories.length - 1].id + 1 : 1;
+
+    return persistedState.categories.length ? Math.max(0, ...persistedState.categories.map(c => c.id)) + 1 : 1;
 };
 
 class CategoryApi {
@@ -118,6 +121,9 @@ class CategoryApi {
                 resolve(categoryId);
             }, delay);
         });
+    }
+    static getInitialState(){
+        return Object.assign([], categories);
     }
 }
 

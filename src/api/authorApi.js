@@ -1,32 +1,34 @@
 import delay from './delay';
 
+const persistedState = localStorage.getItem('state') ? JSON.parse(localStorage.getItem('state')) : {};
+
 const authors = [
     {
         id: 1,
         name: 'Wiedźmin. Czas pogardy.',
         surname: 'Smith',
-        country:{
-            name: 'Poland',
-            flag: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Flag_of_Poland_%28normative%29.svg/250px-Flag_of_Poland_%28normative%29.svg.png'
-        }
+        countryId: 1
     },
     {
-        id: 1,
+        id: 2,
         name: 'Cory',
         surname: 'Smith',
-        country:{
-            name: 'Poland',
-            flag: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Flag_of_Poland_%28normative%29.svg/250px-Flag_of_Poland_%28normative%29.svg.png'
-        }
+        countryId: 2
+    },
+    {
+        id: 3,
+        name: 'Cory',
+        surname: 'Smith',
+        countryId: 3
     }
 ];
 
 const generateId = () => {
-    return authors[authors.length - 1].id + 1;
+    return persistedState.authors.length ? Math.max(0, ...persistedState.authors.map(c => c.id)) + 1 : 1;
 };
 
 class AuthorApi {
-    static getAllBooks() {
+    static getAllAuthors() {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve(Object.assign([], authors));
@@ -39,9 +41,9 @@ class AuthorApi {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 // Simulate server-side validation
-                const minBookNameLength = 3;
-                if (author.name.length < minBookNameLength) {
-                    reject(`Author Name must be at least ${minBookNameLength} characters.`);
+                const minAuthorNameLength = 3;
+                if (author.name.length < minAuthorNameLength) {
+                    reject(`Author name must be at least ${minAuthorNameLength} characters.`);
                 }
 
                 if (author.id) {
@@ -56,7 +58,7 @@ class AuthorApi {
         });
     }
 
-    static deleteBook(authorId) {
+    static deleteAuthor(authorId) {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 const indexOfAuthorToDelete = authors.findIndex(author => {
@@ -66,6 +68,10 @@ class AuthorApi {
                 resolve();
             }, delay);
         });
+    }
+
+    static getInitialState() {
+        return Object.assign([], authors);
     }
 }
 

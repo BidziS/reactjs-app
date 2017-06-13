@@ -1,40 +1,40 @@
 import * as types from './actionTypes';
-import carrierApi from '../api/authorApi';
+import authorApi from '../api/authorApi';
 import {beginAjaxCall, ajaxCallError} from './ajaxStatusAction';
 
-export function loadAuthorsSuccess(carriers) {
-    return { type: types.LOAD_CARRIERS_SUCCESS, carriers };
+export function loadAuthorsSuccess(authors) {
+    return { type: types.LOAD_AUTHORS_SUCCESS, authors };
 }
 
-export function createAuthorSuccess(carrier) {
-    return {type: types.CREATE_CARRIER_SUCCESS, carrier};
+export function createAuthorSuccess(author) {
+    return {type: types.CREATE_AUTHOR_SUCCESS, author};
 }
 
-export function updateCarriersSuccess(carrier) {
-    return {type: types.UPDATE_CARRIER_SUCCESS, carrier};
+export function updateAuthorSuccess(author) {
+    return {type: types.UPDATE_AUTHOR_SUCCESS, author};
 }
 
-export function deleteCarriersSuccess(carrierId) {
-    return {type: types.DELETE_CARRIER_SUCCESS, carrierId};
+export function deleteAuthorSuccess(authorId) {
+    return {type: types.DELETE_AUTHOR_SUCCESS, authorId};
 }
 
-export function loadCarriers() {
+export function loadAuthors() {
     return function (dispatch) {
         dispatch(beginAjaxCall());
-        return carrierApi.getAllCarriers().then(carriers => {
-            dispatch(loadCarriersSuccess(carriers));
+        return authorApi.getAllAuthors().then(authors => {
+            dispatch(loadAuthorsSuccess(authors));
         }).catch(error => {
             throw (error);
         });
     };
 }
 
-export function saveCarrier(carrier) {
+export function saveAuthor(author) {
     return function (dispatch, getState) {
         dispatch(beginAjaxCall());
-        return carrierApi.saveCarrier(carrier).then(savedCarrier => {
-            carrier.id ? dispatch(updateCarriersSuccess(savedCarrier)) :
-                dispatch(createCarriersSuccess(savedCarrier));
+        return authorApi.saveAuthor(author).then(savedAuthor => {
+            author.id ? dispatch(updateAuthorSuccess(savedAuthor)) :
+                dispatch(createAuthorSuccess(savedAuthor));
         }).catch(error => {
             dispatch(ajaxCallError(error));
             throw(error);
@@ -42,11 +42,11 @@ export function saveCarrier(carrier) {
     };
 }
 
-export function deleteCarrier(carrierId) {
+export function deleteAuthor(authorId) {
     return function (dispatch) {
         dispatch(beginAjaxCall());
-        return carrierApi.deleteCarrier(carrierId).then(deletedCarrierId => {
-            dispatch(deleteCarriersSuccess(deletedCarrierId));
+        return authorApi.deleteAuthor(authorId).then(deletedCarrierId => {
+            dispatch(deleteAuthorSuccess(deletedCarrierId));
         }).catch(error => {
             throw (error);
         });

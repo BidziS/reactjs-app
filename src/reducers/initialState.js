@@ -1,10 +1,22 @@
 import languageApi from '../api/mockLanguageApi';
+import coverApi from '../api/coverApi';
+import bookApi from '../api/bookApi';
+import carrierApi from '../api/carrierApi';
+import categoryApi from '../api/categoryApi';
+import userApi from '../api/userApi';
+import countryApi from '../api/countryApi';
+import authorApi from '../api/authorApi';
 
 export default {
-    books: [],
+    authors:authorApi.getInitialState(),
+    books: bookApi.getInitialState(),
     words: languageApi.getInitialState(),
-    users: [],
-    categories: [],
+    users: userApi.getInitialState(),
+    categories: categoryApi.getInitialState(),
+    carriers: carrierApi.getInitialState(),
+    covers: coverApi.getInitialState(),
     currentUser: {},
-    ajaxCallsInProgress: 0
+    countries: countryApi.getInitialState(),
+    ajaxCallsInProgress: 0,
+    errorInformation: ''
 };

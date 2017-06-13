@@ -29,11 +29,11 @@ export function loadCarriers() {
     };
 }
 
-export function saveCarrier(category) {
+export function saveCarrier(carrier) {
     return function (dispatch, getState) {
         dispatch(beginAjaxCall());
-        return carrierApi.saveCarrier(category).then(savedCarrier => {
-            category.id ? dispatch(updateCarriersSuccess(savedCarrier)) :
+        return carrierApi.saveCarrier(carrier).then(savedCarrier => {
+            carrier.id ? dispatch(updateCarriersSuccess(savedCarrier)) :
                 dispatch(createCarriersSuccess(savedCarrier));
         }).catch(error => {
             dispatch(ajaxCallError(error));

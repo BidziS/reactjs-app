@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
 
 
-const MostPopularBookListRow = ({book, order}) => {
+const MostPopularBookListRow = ({book, author, category}) => {
 
 
     return (
@@ -17,11 +17,11 @@ const MostPopularBookListRow = ({book, order}) => {
                         <div className="col-md-9 col-lg-9 col-xs-9 item-description">
                             <h4>{book.title}</h4>
                             <br/>
-                            <h5>Autor: {book.author.name + ' ' + book.author.surname}</h5>
+                            <h5>Autor: {author.name + ' ' + author.surname}</h5>
                             <br/>
                             <h5>ISBN: {book.isbn}</h5>
                             <br/>
-                            <h5>Kategoria: {book.category.name}</h5>
+                            <h5>Kategoria: {category.name}</h5>
                         </div>
                     </div>
                 </div>
@@ -32,7 +32,8 @@ const MostPopularBookListRow = ({book, order}) => {
 
 MostPopularBookListRow.propTypes = {
     book: PropTypes.object.isRequired,
-    order: PropTypes.func.isRequired
+    author: PropTypes.object.isRequired,
+    category: PropTypes.object.isRequired
 };
 
 export default MostPopularBookListRow;

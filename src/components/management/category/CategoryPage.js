@@ -25,7 +25,7 @@ class CategoryPage extends React.Component {
 
     handleCategoryDelete(event) {
         const field = parseInt(event.target.id);
-        this.props.actions.deleteCarrier(field);
+        this.props.actions.deleteCategory(field);
     }
 
     handleUpdateField(event) {
@@ -48,7 +48,7 @@ class CategoryPage extends React.Component {
 
     handleSaveCategory(event) {
         event.preventDefault();
-        this.props.actions.saveCarrier(this.state.category);
+        this.props.actions.saveCategory(this.state.category);
         let category = {id: '', name: ''};
         this.setState({
             category: category
@@ -77,7 +77,7 @@ class CategoryPage extends React.Component {
         const categoryId = parseInt(event.target.id);
         const category = this.props.categories.filter(category => category.id === categoryId);
         this.setState({
-            category: category[0]
+            category: Object.assign({},category[0])
         });
         this.handleClose(event);
     }

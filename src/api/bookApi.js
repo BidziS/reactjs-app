@@ -1,61 +1,37 @@
 import delay from './delay';
 
+const persistedState = localStorage.getItem('state') ? JSON.parse(localStorage.getItem('state')) : {};
+
 const books = [
     {
         id: 1,
         title: 'Wiedźmin. Czas pogardy.',
-        author:{
-            id: 1,
-            name: 'Cory',
-            surname: 'Smith',
-            country:{
-                name: 'Poland',
-                flag: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Flag_of_Poland_%28normative%29.svg/250px-Flag_of_Poland_%28normative%29.svg.png'
-            }
-        },
+        authorId: 1,
         isbn: 'jakis-tam',
-        category:{
-            name: 'taka se'
-        },
-        carrier: {
-            name: 'CD'
-        },
-        cover_type:{
-            name: 'miękka'
-        },
+        categoryId: 1,
+        carrierId: 1,
+        coverId: 1,
         price: 17,
-        cover: 'https://naekranie.pl/wp-content/uploads/2014/12/czas_pogardy_nowa_edycja_large-1413970597.jpg'
+        cover: 'https://naekranie.pl/wp-content/uploads/2014/12/czas_pogardy_nowa_edycja_large-1413970597.jpg',
+        soldQuantity: 4
     },
     {
         id: 2,
-        title: 'Wiedźmin. Miecz przeznaczenia.',
-        author:{
-            id: 1,
-            name: 'Cory',
-            surname: 'Smith',
-            country:{
-                name: 'Poland',
-                flag: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Flag_of_Poland_%28normative%29.svg/250px-Flag_of_Poland_%28normative%29.svg.png'
-            }
-        },
+        title: 'Wiedźmin. Czas pogardy.',
+        authorId: 2,
         isbn: 'jakis-tam',
-        category:{
-            name: 'taka se'
-        },
-        carrier: {
-            name: 'CD'
-        },
-        cover_type:{
-            name: 'miękka'
-        },
+        categoryId: 2,
+        carrierId: 2,
+        coverId: 2,
         price: 17,
-        cover: 'http://ecsmedia.pl/c/wiedzmin-tom-2-miecz-przeznaczenia-b-iext44036396.jpg'
+        cover: 'https://naekranie.pl/wp-content/uploads/2014/12/czas_pogardy_nowa_edycja_large-1413970597.jpg',
+        soldQuantity: 6
     }
 
 ];
 
 const generateId = () => {
-    return books[books.length - 1].id + 1;
+    return persistedState.books.length ? Math.max(0, ...persistedState.books.map(c => c.id)) + 1 : 1;
 };
 
 class BookApi {
@@ -67,13 +43,28 @@ class BookApi {
         });
     }
 
+    static getAllBooksBySoldQuantity() {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(Object.assign([], books.sort((a,b)=>{return b.soldQuantity - a.soldQuantity})));
+            }, delay);
+        });
+    }
+    static getAllBooksSortedByNewest() {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(Object.assign([], books.sort((a,b)=>{return b.id - a.id})));
+            }, delay);
+        });
+    }
+
     static saveBook(book) {
         book = Object.assign({}, book);
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 // Simulate server-side validation
                 const minBookNameLength = 3;
-                if (book.name.length < minBookNameLength) {
+                if (book.title.length < minBookNameLength) {
                     reject(`Book Name must be at least ${minBookNameLength} characters.`);
                 }
 
@@ -99,6 +90,9 @@ class BookApi {
                 resolve();
             }, delay);
         });
+    }
+    static getInitialState(){
+        return Object.assign([], books);
     }
 }
 

@@ -3,12 +3,7 @@ import MostPopularBookList from './MostPopularBooksList';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as booksActions from '../../actions/bookAction';
-import Modal from './Modal';
-
 import FlexboxLayout from './FlexboxLayout';
-import Loader from './Loader';
-
-
 
 
 class HomePage extends React.Component{
@@ -17,46 +12,17 @@ class HomePage extends React.Component{
 
         this.state = { isOpen: false,  loading: false, hide: false };
     }
-
+    componentDidMount() {
+        this.props.actions.loadAllBooksBySoldQuantity();
+    }
     render(){
-        const {books} = this.props;
+        const {books, authors, categories} = this.props;
 
-        const second = "col-md-5 col-lg-5 col-xs-12";
-        const first = "col-md-5 col-lg-5 col-xs-12 col-md-offset-1 col-lg-offset-1";
-        const firstOrSecond = (book) => {
-            if(!(book.id % 2)){
-                return second;
-            }else {
-                return first;
-            }
-        };
-        const toggleModal = () => {
-            if(this.state.isOpen){
-                this.setState({
-                    hide: !this.state.hide
-                });
-                setTimeout(() => {
-                    this.setState({
-                        isOpen: !this.state.isOpen
-                    });
-                }, 400);
-                return;
-            }
-            this.setState({
-                hide: !this.state.hide
-            });
-            this.setState({
-                isOpen: !this.state.isOpen
-            });
-        };
-        const isLoading = () => {
-            this.setState({
-                loading: !this.state.loading
-            });
-        };
+
         return (
             <div>
-                <MostPopularBookList books={books} order={firstOrSecond}/>
+                <MostPopularBookList books={books} authors={authors}
+                                     categories={categories}/>
                 <FlexboxLayout />
                 {/*<Modal show={this.state.isOpen}*/}
                        {/*hide={this.state.hide}*/}
@@ -78,12 +44,27 @@ class HomePage extends React.Component{
 }
 
 HomePage.propTypes = {
-    books: PropTypes.array.isRequired
+    books: PropTypes.array.isRequired,
+    authors: PropTypes.array.isRequired,
+    categories: PropTypes.array.isRequired,
+    covers: PropTypes.array.isRequired,
+    carriers: PropTypes.array.isRequired,
+    actions: PropTypes.object.isRequired
 };
+
+function getMostSoldBooks(books){
+    return books.sort((a, b) => {
+        return b.soldQuantity - a.soldQuantity;
+    });
+}
 
 function mapStateToProps(state, ownProps) {
     return{
-        books: state.books
+        books: state.books,
+        authors: state.authors,
+        categories: state.categories,
+        covers: state.covers,
+        carriers: state.carriers
     };
 }
 

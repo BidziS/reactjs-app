@@ -1,5 +1,7 @@
 import delay from './delay';
 
+const persistedState = localStorage.getItem('state') ? JSON.parse(localStorage.getItem('state')) : {};
+
 const carriers = [
     {
         id: 1,
@@ -19,7 +21,7 @@ const carriers = [
 ];
 
 const generateId = () => {
-    return carriers.length ? carriers[carriers.length - 1].id + 1 : 1;
+    return persistedState.carriers.length ? Math.max(0, ...persistedState.carriers.map(c => c.id)) + 1 : 1;
 };
 
 class CarrierApi {
@@ -63,6 +65,9 @@ class CarrierApi {
                 resolve(carrierId);
             }, delay);
         });
+    }
+    static getInitialState(){
+        return Object.assign([], carriers);
     }
 }
 

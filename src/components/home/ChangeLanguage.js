@@ -18,7 +18,6 @@ class ChangeLanguage extends React.Component {
             return 'en';
         };
         const changeToPolish = () => {
-
             this.props.actions.loadWords(setPolishLanguage());
         };
         const changeToEnglish = () => {

@@ -28,39 +28,7 @@ class UserApi {
         });
     }
 
-    static saveAuthor(author) {
-        author = Object.assign({}, author);
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                // Simulate server-side validation
-                const minBookNameLength = 3;
-                if (author.name.length < minBookNameLength) {
-                    reject(`Author Name must be at least ${minBookNameLength} characters.`);
-                }
 
-                if (author.id) {
-                    const existingAuthorIndex = users.findIndex(a => a.id === author.id);
-                    users.splice(existingAuthorIndex, 1, author);
-                } else {
-                    author.id = generateId(author);
-                    users.push(author);
-                }
-                resolve(author);
-            }, delay);
-        });
-    }
-
-    static deleteBook(authorId) {
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                const indexOfAuthorToDelete = users.findIndex(author => {
-                    author.id == authorId;
-                });
-                users.splice(indexOfAuthorToDelete, 1);
-                resolve();
-            }, delay);
-        });
-    }
     static loginUser(userLogin) {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
@@ -84,6 +52,9 @@ class UserApi {
                resolve({})
             }, 2000);
         });
+    }
+    static getInitialState(){
+        return users;
     }
 }
 

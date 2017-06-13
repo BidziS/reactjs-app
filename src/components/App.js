@@ -1,20 +1,25 @@
 import React, {PropTypes} from 'react';
 import Header from './common/Header';
 import Footer from './common/Footer';
-import {Navbar, Nav, NavItem, NavDropdown, MenuItem} from 'react-bootstrap';
-import {Link, IndexLink,browserHistory} from 'react-router';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import * as languageActions from '../actions/languageActions';
 import ChangeLanguage from './home/ChangeLanguage';
 import Modal from './home/Modal';
 import Loader from './home/Loader';
+import OnError from './common/OnError';
+import Logout from './common/Logout';
 
 class App extends React.Component {
     constructor(props, context) {
         super(props, context);
 
-        this.state = { hide: false, isOpen: false};
+        this.state = { hide: false, isOpen: false, isLogout: false};
+        this.closeLogoutModal = this.closeLogoutModal.bind(this);
+    }
+    closeLogoutModal(event) {
+        event.preventDefault();
+        this.setState({
+            isLogout: !this.state.isLogout
+        });
     }
     render() {
         const toggleModal = () => {
@@ -36,11 +41,15 @@ class App extends React.Component {
                 isOpen: !this.state.isOpen
             });
         };
+
         return (
-            <div className="page-wrap">
+            <div>
+
                 <Header hide={this.state.hide}
                         isOpen={this.state.isOpen}
-                        openLoginForm={toggleModal}/>
+                        openLoginForm={toggleModal}
+                        isLogout={this.state.isLogout}
+                        handleLogout={this.closeLogoutModal}/>
                 <div className="container">
                     <ChangeLanguage/>
                     {this.props.children}
@@ -50,10 +59,13 @@ class App extends React.Component {
                        onClose={toggleModal}>
                     Here's some content for the modal
                 </Modal>
+                <OnError />
+                <Logout isLogout={this.state.isLogout} closeLogoutModal={this.closeLogoutModal} />
                 <Loader loading={this.props.loading} />
                 <Footer/>
             </div>
         );
+
     }
 }
 
@@ -70,3 +82,4 @@ function mapStateToProps(state, ownProps) {
 }
 
 export default connect(mapStateToProps)(App);
+
